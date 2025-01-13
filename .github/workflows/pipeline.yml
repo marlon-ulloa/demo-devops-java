@@ -1,0 +1,24 @@
+name: Pipeline
+
+#Se configura el cuando ejecutar
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+##Defino los jobs a ejecutarse
+jobs:
+  ##Construye el proyecto
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        usage: actions/checkout@v4
+
+      - name: Build with JDK 17
+          uses: docker://amazoncorretto:17-alpine
+          with:
+            entrypoint: /bin/sh -c "apk add --no-cache maven && mvn clean compile"
