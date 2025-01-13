@@ -57,3 +57,25 @@ jobs:
       # Ejecuta las pruebas unitarias
       - name: Static Code Analysis
         run: mvn spotbugs:spotbugs
+
+  # Cobertura de Codigo
+  code-coverage:
+    runs-on: ubuntu-latest
+    container:
+      image: amazoncorretto:17-alpine
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      # instalacion de Maven
+      - name: Install Maven
+        run: apk add --no-cache maven
+      # Ejecuta las pruebas unitarias y genera el reporte de cobertura de codigo
+      - name: Generate Code coverage report
+        run: mvn test jacoco:report
+      #Subir el reporte de cobertura
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: target/jacoco-report/index.html
