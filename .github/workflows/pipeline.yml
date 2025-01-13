@@ -25,3 +25,19 @@ jobs:
       # COmpilacion del proyecto
       - name: Build with JDK 17
         run: mvn clean compile
+
+  #job de pruebas unitarias
+  unit-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: amazoncorretto:17-alpine
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      # instalacion de Maven
+      - name: Install Maven
+        run: apk add --no-cache maven
+      # Ejecuta las pruebas unitarias
+      - name: Unit Tests
+        run: mvn clean test
