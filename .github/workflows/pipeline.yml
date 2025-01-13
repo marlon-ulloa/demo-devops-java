@@ -13,12 +13,12 @@ jobs:
   ##Construye el proyecto
   build:
     runs-on: ubuntu-latest
-
+    container:
+      image: amazoncorretto:17-alpine
     steps:
       - name: Check out repository code
         usage: actions/checkout@v4
 
       - name: Build with JDK 17
           uses: docker://amazoncorretto:17-alpine
-          with:
-            entrypoint: /bin/sh -c "apk add --no-cache maven && mvn clean compile"
+          run: mvn clean compile
