@@ -20,5 +20,4 @@ jobs:
         usage: actions/checkout@v4
 
       - name: Build with JDK 17
-          uses: docker://amazoncorretto:17-alpine
-          run: mvn clean compile
+        run: mvn clean compile
