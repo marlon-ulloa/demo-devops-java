@@ -17,7 +17,7 @@ jobs:
       image: amazoncorretto:17-alpine
     steps:
       - name: Check out repository code
-        usage: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Build with JDK 17
         run: mvn clean compile
