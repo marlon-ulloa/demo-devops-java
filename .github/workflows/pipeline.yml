@@ -19,5 +19,9 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
+      # instalacion de Maven
+      - name: Install Maven
+        run: apk add --no-cache maven
+      # COmpilacion del proyecto
       - name: Build with JDK 17
         run: mvn clean compile
