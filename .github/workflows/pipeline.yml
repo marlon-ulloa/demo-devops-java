@@ -106,9 +106,7 @@ jobs:
             mkdir -p target
             ls -la
             cp demo*.jar target
-
-      - name: Extract Build Artifact (if necessary)
-        run: unzip target-directory.zip -d target
+          ls -la target
 
       # Iniciar Sesion en Docker Hub
       - name: Log in to Docker Hub
