@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pruebadevsu-deployment
+  labels:
+    app: pruebadevsu
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pruebadevsu
+  template:
+    metadata:
+      labels:
+        app: pruebadevsu
+    spec:
+      containers:
+        - name: pruebadevsu
+          image: kike21/pruebadevsu:latest
+          env:
+            - name: USERNAME_DB
+              valueFrom:
+                secretKeyRef:
+                  name: pruebadevsu-secret
+                  key: USERNAME_DB
+            - name: PASSWORD_DB
+              valueFrom:
+                secretKeyRef:
+                  name: pruebadevsu-secret
+                  key: PASSWORD_DB
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: pruebadevsu-config
+            - secretRef:
+                name: pruebadevsu-secret
