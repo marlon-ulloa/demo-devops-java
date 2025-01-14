@@ -24,7 +24,14 @@ jobs:
         run: apk add --no-cache maven
       # COmpilacion del proyecto
       - name: Build with JDK 17
-        run: mvn clean compile
+        run: mvn clean package -DskipTests
+
+      # Cargar el directorio compilado como un artefacto
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-directory
+          path: target/
 
   #job de pruebas unitarias
   unit-tests:
@@ -83,10 +90,16 @@ jobs:
   # Docker build y push
   docker-build-push:
     runs-on: ubuntu-latest
-
+    needs: build
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+
+      # Descargar el artefacto construido
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: target-directory
 
       # Iniciar Sesion en Docker Hub
       - name: Log in to Docker Hub
@@ -108,7 +121,7 @@ jobs:
   # Escaneo de vulnerabilidades
   vulnerability-scan:
     runs-on: ubuntu-latest
-
+    needs: docker-build-push
     steps:
       # Se hace pull de la imagen docker
       - name: Pull Docker Image
