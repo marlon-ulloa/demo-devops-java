@@ -105,6 +105,7 @@ jobs:
         run: |
             mkdir -p target
             ls -la
+            cp demo*.jar target
 
       - name: Extract Build Artifact (if necessary)
         run: unzip target-directory.zip -d target
