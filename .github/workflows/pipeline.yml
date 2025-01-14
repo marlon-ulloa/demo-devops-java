@@ -102,7 +102,9 @@ jobs:
           name: target-directory
 
       - name: Ensure Target Directory Exists
-        run: mkdir -p target
+        run: |
+            mkdir -p target
+            ls -la
 
       - name: Extract Build Artifact (if necessary)
         run: unzip target-directory.zip -d target
