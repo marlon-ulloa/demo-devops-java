@@ -118,12 +118,12 @@ jobs:
       # Construir la imagen Docker
       - name: Build Docker image
         run: |
-          docker build -f Container/Dockerfile -t marlonulloa/pruebadevsu:latest .
+          docker build -f Container/Dockerfile -t kike21/pruebadevsu:latest .
 
       # Subir la imagen Docker a Docker Hub
       - name: Push Docker image
         run: |
-          docker push marlonulloa/pruebadevsu:latest
+          docker push kike21/pruebadevsu:latest
 
   # Escaneo de vulnerabilidades
   vulnerability-scan:
@@ -132,10 +132,10 @@ jobs:
     steps:
       # Se hace pull de la imagen docker
       - name: Pull Docker Image
-        run: docker pull marlonulloa/pruebadevsu:latest
+        run: docker pull kike21/pruebadevsu:latest
 
       # Escaneo de la imagen docker
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.28.0
         with:
-          image-ref: marlonulloa/pruebadevsu:latest
+          image-ref: kike21/pruebadevsu:latest
