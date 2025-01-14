@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: target-directory
-          path: target/
+          path: target/demo*.jar
 
   #job de pruebas unitarias
   unit-tests:
@@ -100,6 +100,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: target-directory
+
+      - name: Ensure Target Directory Exists
+        run: mkdir -p target
+
+      - name: Extract Build Artifact (if necessary)
+        run: unzip target-directory.zip -d target
 
       # Iniciar Sesion en Docker Hub
       - name: Log in to Docker Hub
