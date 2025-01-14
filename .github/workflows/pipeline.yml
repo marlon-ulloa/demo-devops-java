@@ -106,7 +106,7 @@ jobs:
             mkdir -p target
             ls -la
             cp demo*.jar target
-          ls -la target
+            ls -la target
 
       # Iniciar Sesion en Docker Hub
       - name: Log in to Docker Hub
