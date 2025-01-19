@@ -142,3 +142,44 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: kike21/pruebadevsu:latest
+
+  # Deploy
+  deploy-kubernetes:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout del código
+        - name: Checkout code
+          uses: actions/checkout@v3
+
+        # 2. Configurar kubectl
+        - name: Set up kubectl
+          uses: azure/setup-kubectl@v3
+          with:
+            version: 'v1.31.0'
+
+        # 3. Establecer el archivo KUBECONFIG
+        - name: Configure KUBECONFIG
+          env:
+            KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          run: echo $KUBECONFIG
+
+        # 4. Aplicar ConfigMap
+        - name: Apply ConfigMap
+          run: kubectl apply -f Container/kubernetes/configmap.yaml --namespace=pruebadevsu
+
+        # 5. Aplicar Secret
+        - name: Apply Secret
+          run: kubectl apply -f Container/kubernetes/secret.yaml --namespace=pruebadevsu
+
+        # 6. Aplicar Deployment
+        - name: Apply Deployment
+          run: kubectl apply -f Container/kubernetes/deployment.yaml --namespace=pruebadevsu
+
+        # 7. Aplicar Service
+        - name: Apply Service
+          run: kubectl apply -f Container/kubernetes/service.yaml --namespace=pruebadevsu
+
+        # 8. Aplicar Ingress
+        - name: Apply Ingress
+          run: kubectl apply -f Container/kubernetes/ingress.yaml --namespace=pruebadevsu
