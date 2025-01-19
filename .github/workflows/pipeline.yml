@@ -146,6 +146,7 @@ jobs:
   # Deploy
   deploy-kubernetes:
     runs-on: ubuntu-latest
+    needs: vulnerability-scan
     steps:
       # 1. Checkout del código
       - name: Checkout code
