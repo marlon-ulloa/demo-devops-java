@@ -177,10 +177,14 @@ jobs:
       - name: Apply Deployment
         run: kubectl apply -f Container/kubernetes/deployment.yaml --namespace=pruebadevsu
 
-      # 7. Aplicar Service
+      # 7. Aplicar HPA
+      - name: Apply HPA
+        run: kubectl apply -f Container/kubernetes/hpa.yaml --namespace=pruebadevsu
+
+      # 8. Aplicar Service
       - name: Apply Service
         run: kubectl apply -f Container/kubernetes/service.yaml --namespace=pruebadevsu
 
-      # 8. Aplicar Ingress
+      # 9. Aplicar Ingress
       - name: Apply Ingress
         run: kubectl apply -f Container/kubernetes/ingress.yaml --namespace=pruebadevsu
