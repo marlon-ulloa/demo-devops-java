@@ -162,7 +162,8 @@ jobs:
         - name: Configure KUBECONFIG
           env:
             KUBECONFIG: ${{ secrets.KUBECONFIG }}
-          run: echo $KUBECONFIG
+          run: |
+            echo "${KUBECONFIG}" > ~/.kube/config
 
         # 4. Aplicar ConfigMap
         - name: Apply ConfigMap
