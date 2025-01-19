@@ -1,142 +1,41 @@
-# Demo Devops Java
+# Prueba Técnica Demo Devops Java
 
 This is a simple application to be used in the technical test of DevOps.
 
-## Getting Started
+## Diagrams
 
-### Prerequisites
+### Architecture Diagram
+![arq diagram](https://github.com/user-attachments/assets/9575576b-c6e9-4375-8ef5-103c5d575fb4)
 
-- Java Version 17
-- Spring Boot 3.0.5
-- Maven
 
-### Installation
+## Deployment
 
-Clone this repo.
+The application was deployed on both minikube and aws using kubernetes:
+![image](https://github.com/user-attachments/assets/c85cc6d0-eb93-470f-936e-d69ed00c9b92)
 
+## Description
+To deploy the app, i created a set of yaml files:
+  •	configmap.yaml
+  •	secret.yaml
+  •	deployment.yaml
+  •	service.yaml
+  •	ingress.yaml
+  •	hpa.yaml
+
+Also, I created a tf file to create infrastructure from code (IaC), and it is in Container/kubernetes/terraform/ path. To apply the file main.tf we shoud execute the following commands:
 ```bash
-git clone https://bitbucket.org/devsu/demo-devops-java.git
+terraform init
 ```
-
-### Database
-
-The database is generated as a file in the main path when the project is first run, and its name is `test.mv.db`.
-
-Consider giving access permissions to the file for proper functioning.
-
-## Usage
-
-To run tests you can use this command.
-
 ```bash
-mvn clean test
+terraform plan
 ```
-
-To run locally the project you can use this command.
-
 ```bash
-mvn spring-boot:run
+terraform apply
 ```
 
-Open http://127.0.0.1:8000/api/swagger-ui.html with your browser to see the result.
+El pipeline se encuentra en la pestaña Actions de éste repositorio o, accediendo directamente a este enlace: https://github.com/marlon-ulloa/demo-devops-java/actions/runs/12856621411.
 
-### Features
+Url Pública: https://load-1627607662.us-east-2.elb.amazonaws.com/api/swagger-ui.html
 
-These services can perform,
 
-#### Create User
 
-To create a user, the endpoint **/api/users** must be consumed with the following parameters:
-
-```bash
-  Method: POST
-```
-
-```json
-{
-    "dni": "dni",
-    "name": "name"
-}
-```
-
-If the response is successful, the service will return an HTTP Status 200 and a message with the following structure:
-
-```json
-{
-    "id": 1,
-    "dni": "dni",
-    "name": "name"
-}
-```
-
-If the response is unsuccessful, we will receive status 400 and the following message:
-
-```json
-{
-    "errors": [
-        "error"
-    ]
-}
-```
-
-#### Get Users
-
-To get all users, the endpoint **/api/users** must be consumed with the following parameters:
-
-```bash
-  Method: GET
-```
-
-If the response is successful, the service will return an HTTP Status 200 and a message with the following structure:
-
-```json
-[
-    {
-        "id": 1,
-        "dni": "dni",
-        "name": "name"
-    }
-]
-```
-
-#### Get User
-
-To get an user, the endpoint **/api/users/<id>** must be consumed with the following parameters:
-
-```bash
-  Method: GET
-```
-
-If the response is successful, the service will return an HTTP Status 200 and a message with the following structure:
-
-```json
-{
-    "id": 1,
-    "dni": "dni",
-    "name": "name"
-}
-```
-
-If the user id does not exist, we will receive status 404 and the following message:
-
-```json
-{
-    "errors": [
-        "User not found: <id>"
-    ]
-}
-```
-
-If the response is unsuccessful, we will receive status 400 and the following message:
-
-```json
-{
-    "errors": [
-        "error"
-    ]
-}
-```
-
-## License
-
-Copyright © 2023 Devsu. All rights reserved.
