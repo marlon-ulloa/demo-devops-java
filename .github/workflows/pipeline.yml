@@ -146,41 +146,40 @@ jobs:
   # Deploy
   deploy-kubernetes:
     runs-on: ubuntu-latest
-
     steps:
       # 1. Checkout del código
-        - name: Checkout code
-          uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-        # 2. Configurar kubectl
-        - name: Set up kubectl
-          uses: azure/setup-kubectl@v3
-          with:
-            version: 'v1.31.0'
+      # 2. Configurar AWS CLI y autenticar
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-        # 3. Establecer el archivo KUBECONFIG
-        - name: Configure KUBECONFIG
-          env:
-            KUBECONFIG: ${{ secrets.KUBECONFIG }}
-          run: |
-            echo "${KUBECONFIG}" > ~/.kube/config
+      # 3. Configurar kubeconfig para EKS
+      - name: Set up kubectl for EKS
+        run: |
+          aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.AWS_EKS_CLUSTER_NAME }}
 
-        # 4. Aplicar ConfigMap
-        - name: Apply ConfigMap
-          run: kubectl apply -f Container/kubernetes/configmap.yaml --namespace=pruebadevsu
+      # 4. Aplicar ConfigMap
+      - name: Apply ConfigMap
+        run: kubectl apply -f Container/kubernetes/configmap.yaml --namespace=pruebadevsu
 
-        # 5. Aplicar Secret
-        - name: Apply Secret
-          run: kubectl apply -f Container/kubernetes/secret.yaml --namespace=pruebadevsu
+      # 5. Aplicar Secret
+      - name: Apply Secret
+        run: kubectl apply -f Container/kubernetes/secret.yaml --namespace=pruebadevsu
 
-        # 6. Aplicar Deployment
-        - name: Apply Deployment
-          run: kubectl apply -f Container/kubernetes/deployment.yaml --namespace=pruebadevsu
+      # 6. Aplicar Deployment
+      - name: Apply Deployment
+        run: kubectl apply -f Container/kubernetes/deployment.yaml --namespace=pruebadevsu
 
-        # 7. Aplicar Service
-        - name: Apply Service
-          run: kubectl apply -f Container/kubernetes/service.yaml --namespace=pruebadevsu
+      # 7. Aplicar Service
+      - name: Apply Service
+        run: kubectl apply -f Container/kubernetes/service.yaml --namespace=pruebadevsu
 
-        # 8. Aplicar Ingress
-        - name: Apply Ingress
-          run: kubectl apply -f Container/kubernetes/ingress.yaml --namespace=pruebadevsu
+      # 8. Aplicar Ingress
+      - name: Apply Ingress
+        run: kubectl apply -f Container/kubernetes/ingress.yaml --namespace=pruebadevsu
