@@ -70,7 +70,7 @@ jobs:
   # Cobertura de Codigo
   code-coverage:
     runs-on: ubuntu-latest
-    needs: build
+    needs: unit-tests
     container:
       image: amazoncorretto:17-alpine
     steps:
@@ -93,7 +93,7 @@ jobs:
   # Docker build y push
   docker-build-push:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [unit-tests,static-code-analysis]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
